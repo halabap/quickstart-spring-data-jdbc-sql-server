@@ -25,7 +25,7 @@ echo "Creating SQL Server Server instance"
 az sql server create \
     --resource-group $AZ_RESOURCE_GROUP \
     --name $AZ_DATABASE_NAME \
-    --location $AZ_LOCATION \
+    --location "$AZ_LOCATION" \
     --admin-user $AZ_SQL_SERVER_USERNAME \
     --admin-password $AZ_SQL_SERVER_PASSWORD \
     -o tsv
@@ -50,6 +50,16 @@ az sql db create \
     --name demo \
     --server $AZ_DATABASE_NAME \
     -o tsv
+
+az connection create sql \
+    --resource-group $AZ_RESOURCE_GROUP \
+    --connection sql_conn \
+    --target-resource-group $AZ_RESOURCE_GROUP \
+    --server $AZ_DATABASE_NAME \
+    --database demo \
+    --user-account \
+    --query authInfo.userName \
+    --output tsv
 
 echo "-----------------------------------------------------"
 echo "Resources:"
